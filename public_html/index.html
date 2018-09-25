@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Naumovich 2.0</title>
+  </head>
+<body>
+    <div class="container">
+        <div class="container logo">
+            <img class="logo" src="img/logo.png"/>
+        </div>
+        <div class="container korovnik">
+              <div class="row">
+                  <div class="col-1"></div>
+                  <div class="col-6 mebel">
+                      <b>Mebel</b>
+                      <hr/>
+                      <span id="mebel_temp">+15&#8451;</span>
+                      <hr/>
+                      <span id="mebel_setter" style="display: none;">
+                        Target temp:
+                        <br/> 
+                        <select onchange="$(this).blur();" 
+                                class="btn btn-outline-danger col-11" 
+                                id="set_mebel_temp">
+                            <option>20</option>
+                            <option>19</option>
+                            <option>18</option>
+                            <option>17</option>
+                            <option>16</option>
+                            <option>15</option>
+                            <option>14</option>
+                            <option>13</option>
+                            <option>12</option>
+                            <option>11</option>
+                            <option>10</option>
+                        </select>
+                     </span>
+                  </div>
+                  <div class="col-4 litos">
+                      <b>Litos</b>
+                      <hr/>
+                      <span id="litos_temp">+10&#8451;</span>
+                      <hr/>
+                  </div>
+                  <div class="col-1">
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-1"></div>
+                <div class="col-3">
+                    <img onclick="heater_on();" id="heater_off" class="pomp_heater" src="img/heater_off.gif"/>
+                    <img onclick="heater_off();" id="heater_on" class="pomp_heater" style="display:none;" src="img/heater_on.gif"/>
+                    <span id="heater_temp">24</span>&#8451;
+                </div>
+                <div class="col-3">
+                    <img onclick="pomp_on();" id="pomp_off" class="pomp_heater" src="img/pomp_off.gif"/>
+                    <img onclick="pomp_off();" id="pomp_on" class="pomp_heater" style="display:none;" src="img/pomp_on.gif"/>
+                    <span id="pomp_temp">12</span>&#8451;
+                </div>
+                <div class="col-1"></div> 
+                <div class="col-3">
+                    <img class="pomp_heater" src="img/outside_temp.png"/>
+                    <span id="outdoor_temp">-5</span>&#8451;
+                </div>
+                <div class="col-1"></div>
+              </div>
+            <div class="row selector">
+                <div class="col-1"></div>
+                <div class="col-10">
+                    <select class="btn btn-secondary col-12" id="modes">
+                        <option>Off</option>
+                        <option>ECO</option>
+                        <option>Standart</option>
+                    </select>
+                </div>
+                <div class="col-1"></div>
+            </div>
+        </div>
+        <div class="container logo"> 
+                &copy;2018 Litos printing company
+        </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/index.js"></script>
+</body>
+</html>
+    
