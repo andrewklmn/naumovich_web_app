@@ -36,7 +36,14 @@ function get_current_status(){
             timeout = setTimeout( get_current_status , REFRESH_TIME);
             return true;
         };
-        
+
+        if(data.answer=="Bad request") {
+            show_status( "<font style='color:blue;'>Bad request!</font>" );
+            timeout = setTimeout( get_current_status , REFRESH_TIME);
+            return true;
+        };
+
+          
         t = data.answer.split("|");
         
         eeprom_config_value = parseInt(t[0]);
