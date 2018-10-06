@@ -46,10 +46,14 @@ function get_current_status(){
         display_temp( 'outdoor_temp', t[8]);
         display_temp( 'litos_temp',   t[9]);
         display_temp( 'mebel_temp',   t[10]);
-        display_temp( 'heater_temp',   t[11]);
-        display_temp( 'pomp_temp',   t[12]);
+        display_temp( 'heater_temp',  t[11]);
+        display_temp( 'pomp_temp',    t[12]);
         
-        
+        check_temp_sensor('outdoor_temp', t[3]);
+        check_temp_sensor('litos_temp',   t[4]);
+        check_temp_sensor('mebel_temp',   t[5]);
+        check_temp_sensor('heater_temp',  t[6]);
+        check_temp_sensor('pomp_temp',    t[7]);
 
         // sets button to actual mode
         if ("1" == t[13]) {
@@ -113,6 +117,7 @@ function send_command(command){
 };
 
 function display_temp( id, value){
+    
     var sign_of_temp = "";
     // check sign of temperature value
     if ( Math.round(parseFloat(value)*10) > 0 ){
@@ -121,8 +126,14 @@ function display_temp( id, value){
     $( "span#" + id ).html( sign_of_temp + value + "&#8451;" );
 };
 
+function check_temp_sensor( id, value ){
+    if (parseInt(value) > 0) {
+        $( "span#" + id ).html( "<b>XXX</b>" );    
+    };
+};
+
 function show_status(text){
-    $("div#status").html(text);
+    //$("div#status").html(text);
 };
 
 function pomp_on(){
@@ -155,10 +166,9 @@ function set_mebel_temp( temp_value ) {
         3 unsigned char   Min back water temp   (default +10)
         4 unsigned char   Max hot water temp    (default +35)
     */
-    var new_config_value = temp_value;
-    new_config_value = new_config_value << 24;
-    new_config_value = (eeprom_config_value & 0x00FFFFFF) | new_config_value;
-    send_command("AT set config " + new_config_value);
+    temp_value = temp_value << 24;
+    temp_value = (eeprom_config_value & 0x00FFFFFF) | temp_value;
+    send_command("AT set config " + temp_value);
 };
 
 $(document).ready(function(){
