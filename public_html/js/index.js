@@ -89,7 +89,7 @@ function get_current_status(){
         };
         
 
-        show_status( "<font style='font-size:5px;color:gray;'>" + data.answer + "</font>" );
+        show_status( "<font style='font-size:10px;color:gray;'>" + data.answer + "</font>" );
 
         timeout = setTimeout( get_current_status , REFRESH_TIME);
       },
@@ -109,7 +109,7 @@ function send_command(command){
       data: { command: command },
       url: api,
       success: function( data ) {
-        show_status( "<font style='font-size:5px;color:gray;'>" + data.answer + "</font>" );
+        show_status( "<font style='font-size:10px;color:gray;'>" + data.answer + "</font>" );
       },
       error: function () {
         show_status( "<font style='color:red;'>Connection error!</font>" );
