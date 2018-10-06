@@ -12,10 +12,10 @@ var eeprom_config_value = 252316195;
         4 unsigned char   Max hot water temp    (default +35)
     */
 
-//var api = '/api';
-api = 'api.txt';
+var api = 'api';   // comment this for testing
+//api = 'api.txt'; // comment this for production
 
-const REFRESH_TIME = 3000;
+const REFRESH_TIME = 1500;
 
 function get_current_status(){
     
@@ -89,13 +89,15 @@ function get_current_status(){
         };
         
 
-        show_status( data.answer );
+        show_status( "<font style='text-size:5px;'>" + data.answer + "</font>" );
 
         timeout = setTimeout( get_current_status , REFRESH_TIME);
       },
       error: function () {
+          
         show_status( "<font style='color:red;'>Connection error!</font>" );
         timeout = setTimeout( get_current_status , REFRESH_TIME);
+        
       },
       dataType: "json"
     });
@@ -107,7 +109,7 @@ function send_command(command){
       data: { command: command },
       url: api,
       success: function( data ) {
-        show_status( data.answer);
+        show_status( "<font style='text-size:5px;'>" + data.answer + "</font>" );
       },
       error: function () {
         show_status( "<font style='color:red;'>Connection error!</font>" );
@@ -133,7 +135,7 @@ function check_temp_sensor( id, value ){
 };
 
 function show_status(text){
-    //$("div#status").html(text);
+    $("div#status").html(text);
 };
 
 function pomp_on(){
