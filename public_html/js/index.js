@@ -4,15 +4,24 @@
 
 var timeout;    // ask status timeout
 var eeprom_config_value = 252316195;
+    /*
+        epprom_config_value:
+        1 unsigned char - Min mebel temp        (default +15)
+        2 unsigned char   Min litos temp        (default +10)
+        3 unsigned char   Min back water temp   (default +10)
+        4 unsigned char   Max hot water temp    (default +35)
+    */
 
 //var api = '/api';
 api = 'api.txt';
 
-const REFRESH_TIME = 1000;
+const REFRESH_TIME = 3000;
 
 function get_current_status(){
     
     var t = [];             // temporary answer buffer
+    var mode = $("select#modes").val();
+    
     clearTimeout(timeout);
     
     $.ajax({
@@ -30,13 +39,6 @@ function get_current_status(){
         
         t = data.answer.split("|");
         
-        /*
-            epprom_config_value:
-                1 unsigned char - Min mebel temp        (default +15)
-                2 unsigned char   Min litos temp        (default +10)
-                3 unsigned char   Min back water temp   (default +10)
-                4 unsigned char   Max hot water temp    (default +35)
-        */
         eeprom_config_value = parseInt(t[0]);
         $("select#set_mebel_temp").val( parseInt(t[0]) >>> 24 );
         
@@ -48,6 +50,7 @@ function get_current_status(){
         display_temp( 'pomp_temp',   t[12]);
         
         
+
         // sets button to actual mode
         if ("1" == t[13]) {
            pomp_off();
@@ -59,19 +62,29 @@ function get_current_status(){
         } else {
            heater_on();
         };
+
         if ("3" == t[2] 
-                || "4" == t[2]
-                || "0" == t[2]
-                || "5" == t[2]
-                || "6" == t[2]) {
-            $("select#modes").val("Off");
-        } else if ("1" == t[2] ) {
-            $("select#modes").val("ECO");
+            || "4" == t[2]
+            || "0" == t[2]
+            || "5" == t[2]
+            || "6" == t[2]) {
+            if (mode!="Off") {
+                $("select#modes").val("Off");
+                $("select#modes").change();
+            };
+          } else if ("1" == t[2] ) {
+            if (mode!="ECO") {
+                $("select#modes").val("ECO");
+                $("select#modes").change();
+            };
         } else {
-            $("select#modes").val("Standart");
+            if ( mode!="Standart" ) {
+                $("select#modes").val("Standart");
+                $("select#modes").change();
+            };
         };
         
-        $("select#modes").change();
+
         show_status( data.answer );
 
         timeout = setTimeout( get_current_status , REFRESH_TIME);
@@ -86,7 +99,7 @@ function get_current_status(){
 
 function send_command(command){
     $.ajax({
-      type: "POST",
+      type: "GET",
       data: { command: command },
       url: api,
       success: function( data ) {
@@ -129,7 +142,33 @@ function heater_off(){
     $('img#heater_off').show();    
 };
 
+function set_mode( mode_number ){
+    send_command("AT set mode " + mode_number);
+    
+};
+
+function set_mebel_temp( temp_value ) {
+    /*
+        epprom_config_value:
+        1 unsigned char - Min mebel temp        (default +15)
+        2 unsigned char   Min litos temp        (default +10)
+        3 unsigned char   Min back water temp   (default +10)
+        4 unsigned char   Max hot water temp    (default +35)
+    */
+    var new_config_value = temp_value;
+    new_config_value = new_config_value << 24;
+    new_config_value = (eeprom_config_value & 0x00FFFFFF) | new_config_value;
+    send_command("AT set config " + new_config_value);
+};
+
 $(document).ready(function(){
+    $("select#set_mebel_temp").blur(function(){
+        var current_temp = $(this).val();
+        // если изменили температуру
+        if ((eeprom_config_value >>> 24) != current_temp ) {
+            set_mebel_temp( current_temp);
+        };
+    });
     $("select#modes").change(function(){
         switch($(this).val()){
             case 'Off':
@@ -137,18 +176,21 @@ $(document).ready(function(){
                 $(this).removeClass("btn-success");
                 $(this).removeClass("btn-danger");
                 $(this).addClass("btn-secondary");
+                set_mode("0");
                 break;
             case 'ECO':
                 $("span#mebel_setter").hide();
                 $(this).removeClass("btn-secondary");
                 $(this).removeClass("btn-danger");
                 $(this).addClass("btn-success");
+                set_mode("1");
                 break;
             case 'Standart':
                 $("span#mebel_setter").show();
                 $(this).removeClass("btn-success");
                 $(this).removeClass("btn-secondary");
                 $(this).addClass("btn-danger");
+                set_mode("2");
                 break;
         };
     })
