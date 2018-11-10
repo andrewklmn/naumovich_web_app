@@ -6,95 +6,247 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <!--
+      <link rel="stylesheet" href="css/bootstrap.min.css">
+    -->
+    <style>
+    /*
+        Created on : 25.09.2018, 20:09:47
+        Author     : user
+    */
+
+    @media (min-width: 450px) {
+        body {
+            padding-top: 5px;
+            background-color: gray;
+        }
+        div.korovnik {
+            border-radius: 25px;
+            background: #c5c6c6;
+            padding: 10px;
+            width: 360px;
+            height: 410px;
+        }
+        div.logo{
+            padding: 10px;
+            width: 330px;
+        }
+        img.logo {
+            width: 310px;
+        }
+        div.litos {
+            border-radius: 15px;
+            background-color: lightskyblue;
+            color: darkblue;
+            padding: 20px;
+            height: 240px;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+        div.mebel {
+            border-radius: 15px;
+            background-color: lightsalmon;
+            color: darkred;
+            padding: 20px;
+            height: 240px;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+        .selector{
+            padding-top: 10px;
+        }
+
+    }
+
+    @media (max-width: 450px) {
+        body {
+            padding-top: 10px;
+            background-color: gray;
+        }
+        img.logo {
+            width: 220px;
+        }
+        img.pomp_heater{
+            width: 33px;
+        }
+        div.logo{
+            padding: 10px;
+            width: 240px;
+        }
+        div.korovnik {
+            border-radius: 25px;
+            background: #c5c6c6;
+            padding: 10px;
+            width: 290px;
+            height: 400px;
+        }
+        div.litos {
+            border-radius: 15px;
+            background: lightskyblue;
+            color: darkblue;
+            padding: 10px;
+            height: 250px;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+        div.mebel {
+            border-radius: 15px;
+            background: lightsalmon;
+            color: darkred;
+            padding: 10px;
+            height: 250px;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .selector{
+            padding-top: 5px;
+        }
+    }
+
+    td {
+      text-align: center;
+      vertical-align: top;
+      border-radius: 5px;
+      margin: 5px;
+      padding: 5px;
+    }
+
+    td.mebel {
+      background-color: pink;
+      color: darkred;
+      height: 160px;
+    }
+    td.litos {
+      background-color: lightskyblue;
+      color: darkblue;
+      height: 160px;
+    }
+
+    td.temperature {
+      text-align: center;
+      vertical-align: top;
+      background-color: lightgray;
+    }
+
+    td#status {
+      background-color: #AAAAAA;
+    }
+
+    span#litos_temp, span#mebel_temp {
+        font-size: 25px;
+    }
+
+
+    select {
+      border-radius: 10px;
+      font-size: 18px;
+      height: 50px;
+    }
+
+    .btn-danger {
+      background-color: red;
+      color:yellow;
+    }
+
+    .btn-secondary {
+      background-color: gray;
+      color:white;
+    }
+
+    .btn-success {
+      background-color: green;
+      color:yellow;
+    }
+
+    </style>
     <title>Naumovich 2.0</title>
   </head>
 <body>
-    <div class="container">
-        <div class="container logo">
-            <img class="logo" src="img/logo.png"/>
-        </div>
-        <div class="container korovnik">
-              <div class="row">
-                  <div class="col-1"></div>
-                  <div class="col-6 mebel">
-                      <b>Mebel</b>
-                      <hr/>
-                      <span id="mebel_temp">+0&#8451;</span>
-                      <hr/>
-                      <span id="mebel_setter" style="display: none;">
-                        Target temp:
-                        <br/> 
-                        <select onchange="$(this).blur();" 
-                                class="btn btn-outline-danger col-11" 
-                                id="set_mebel_temp">
-                            <option>20</option>
-                            <option>19</option>
-                            <option>18</option>
-                            <option>17</option>
-                            <option>16</option>
-                            <option>15</option>
-                            <option>14</option>
-                            <option>13</option>
-                            <option>12</option>
-                            <option>11</option>
-                            <option>10</option>
-                        </select>
-                     </span>
-                  </div>
-                  <div class="col-4 litos">
-                      <b>Litos</b>
-                      <hr/>
-                      <span id="litos_temp">+0&#8451;</span>
-                      <hr/>
-                  </div>
-                  <div class="col-1">
-                  </div>
-              </div>
-              <div class="row">
-                <div class="col-1"></div>
-                <div class="col-3">
-                    <img onclick="pomp_on();" id="pomp_off" class="pomp_heater" src="img/pomp_off.gif"/>
-                    <img onclick="pomp_off();" id="pomp_on" class="pomp_heater" style="display:none;" src="img/pomp_on.gif"/>
-                    <span id="pomp_temp">+12&#8451;</span>
-                </div>
-                <div class="col-3">
-                    <img onclick="heater_on();" id="heater_off" class="pomp_heater" src="img/heater_off.gif"/>
-                    <img onclick="heater_off();" id="heater_on" class="pomp_heater" style="display:none;" src="img/heater_on.gif"/>
-                    <span id="heater_temp">+24&#8451;</span>
-                </div>
-                <div class="col-1"></div> 
-                <div class="col-3">
-                    <img class="pomp_heater" src="img/outside_temp.png"/>
-                    <span id="outdoor_temp">-5&#8451;</span>
-                </div>
-                <div class="col-1"></div>
-              </div>
-            <div class="row selector">
-                <div class="col-1"></div>
-                <div class="col-10">
-                    <select class="btn btn-secondary col-12" id="modes">
-                        <option>Off</option>
-                        <option>ECO</option>
-                        <option>Standart</option>
-                    </select>
-                </div>
-                <div class="col-1"></div>
-            </div>
-            <div id="status" class="container" style="text-align: center;"> 
-                
-            </div>
-        </div>
-        <div class="container logo"> 
-                &copy;2018 Litos printing company
-        </div>
-    </div>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="js/jquery-3.3.1.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+<table>
+  <tr>
+    <td colspan="3">
+      <font style="font-size:30px;color:white;font-weight:bold;">
+          Naumovich 2.0
+      </font>
+      <hr/>
+      h &nbsp;e &nbsp;a &nbsp;t &nbsp;i &nbsp;n &nbsp;g
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      s &nbsp;y &nbsp;s &nbsp;t &nbsp;e &nbsp;m
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="mebel">
+      <b>Mebel</b>
+      <hr/>
+      <span id="mebel_temp">+0&#8451;</span>
+      <hr/>
+      <span id="mebel_setter" style="display: none;">
+        Target temp:
+        <br/>
+        <select onchange="$(this).blur();"
+                class="btn btn-outline-danger col-11"
+                id="set_mebel_temp" style="width:80px;text-align:center;">
+            <option>20</option>
+            <option>19</option>
+            <option>18</option>
+            <option>17</option>
+            <option>16</option>
+            <option>15</option>
+            <option>14</option>
+            <option>13</option>
+            <option>12</option>
+            <option>11</option>
+            <option>10</option>
+        </select>
+     </span>
+    </td>
+    <td class="litos">
+      <b>Litos</b>
+      <hr/>
+      <span id="litos_temp">+0&#8451;</span>
+      <hr/>
+    </td>
+  </tr>
+  <tr>
+    <td class="temperature">
+      <img onclick="pomp_on();" id="pomp_off" class="pomp_heater" src="img/pomp_off.gif"/>
+      <img onclick="pomp_off();" id="pomp_on" class="pomp_heater" style="display:none;" src="img/pomp_on.gif"/>
+      <br/>
+      <span id="pomp_temp">+12&#8451;</span>
+    </td>
+    <td class="temperature">
+      <img onclick="heater_on();" id="heater_off" class="pomp_heater" src="img/heater_off.gif"/>
+      <img onclick="heater_off();" id="heater_on" class="pomp_heater" style="display:none;" src="img/heater_on.gif"/>
+      <br>
+      <span id="heater_temp">+24&#8451;</span>
+    </td>
+    <td class="temperature">
+      <img class="pomp_heater" src="img/outside_temp.png"/>
+      <br/>
+      <span id="outdoor_temp">-5&#8451;</span>
+    </td>
+  </tr>
+  <tr>
+    <td class="temperature" colspan="3">
+        <select class="btn btn-secondary" id="modes" style="width:200px;text-align:center;">
+          <option>Off</option>
+          <option>ECO</option>
+          <option>Standart</option>
+        </select>
+      </td>
+  </tr>
+  <tr>
+    <td id="status" colspan="3">
+    </td>
+  </tr>
+  <tr>
+    <td colspan="3">
+      &copy;2018 Litos printing company
+    </td>
+  </tr>
+</table>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="js/index.js"></script>
 </body>
 </html>
-    

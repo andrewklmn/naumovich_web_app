@@ -9,18 +9,29 @@
 
 //MDNSResponder mdns;
 
+
+const char* ssid = "litos";
+const char* password = "jlvGQXjlvGQX";
+ESP8266WebServer server(100);
+IPAddress ip(10, 0, 0, 66);     // адрес в вайфай сети коровника
+IPAddress gateway(10, 0, 0, 1);
+IPAddress subnet(255, 255, 255, 0);
+IPAddress dns(10, 0, 0, 1);
+
+/*
 const char* ssid = "BUZOVA";
 const char* password = "1234567890";
-int temp[4] = { 0,0,0,0 }; 
-
-const char* htmlfile = "/index.html";
-
-ESP8266WebServer server(80);
-
-IPAddress ip(192, 168, 0, 202);
+ESP8266WebServer server(100);
+IPAddress ip(192, 168, 0, 202);     // адрес в вайфай сети коровника
 IPAddress gateway(192, 168, 0, 1);
 IPAddress subnet(255, 255, 255, 0);
 IPAddress dns(192, 168, 0, 1);
+*/
+
+
+
+int temp[4] = { 0,0,0,0 }; 
+const char* htmlfile = "/index.html";
 
 char * UART_read_answer() {  // чтение ответа по UART, возвращает указатель на char array с ответом
   
@@ -225,6 +236,8 @@ void setup(void){
   WiFi.mode(WIFI_AP_STA);             // клиент и точка доступа
   WiFi.softAP("NAUMOVICH", "1234567890", 8);
   //Serial.println("WiFi AP started");    
+  
+  
   WiFi.config(ip, gateway, subnet);
   WiFi.begin(ssid, password);
 
@@ -241,16 +254,24 @@ void setup(void){
   
   // Wait for connection
 
+  int counter = 0;
   
-  while ( WiFi.status() != WL_CONNECTED) {
-    delay(500);
+  while ( WiFi.status() != WL_CONNECTED ) {
+
+//  while ( WiFi.status() != WL_CONNECTED && counter < 30) {
+    delay(800);
     digitalWrite(INFO_LED, LOW);
     delay(50);
     digitalWrite(INFO_LED, HIGH);
-    
+    delay(100);
+    digitalWrite(INFO_LED, LOW);
+    delay(50);
+    digitalWrite(INFO_LED, HIGH);
+    //counter++;
   };
   //Serial.println("--------------");
   //Serial.println("WiFi connected");
+
   
   delay(700);
   digitalWrite(INFO_LED, LOW);

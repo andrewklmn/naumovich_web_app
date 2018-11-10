@@ -1,5 +1,5 @@
-/* 
- * 
+/*
+ *
  */
 
 var timeout;    // ask status timeout
@@ -12,25 +12,26 @@ var eeprom_config_value = 252316195;
         4 unsigned char   Max hot water temp    (default +35)
     */
 
-var api = 'api';   // comment this for testing
-//api = 'api.txt'; // comment this for production
+//var api = 'api';   // comment this for testing
+//var api = 'api.txt'; // comment this for production
+var api = 'api.php'; // comment this for production
 
 const REFRESH_TIME = 1500;
 
 function get_current_status(){
-    
+
     var t = [];             // temporary answer buffer
     var mode = $("select#modes").val();
-    
+
     clearTimeout(timeout);
-    
+
     $.ajax({
       type: "GET",
       data: { command: "AT get all" },
       url: api,
       success: function( data ) {
-        
-        
+
+
         if(data.answer=="T") {
             show_status( "<font style='color:red;'>ARM timeout error!</font>" );
             timeout = setTimeout( get_current_status , REFRESH_TIME);
@@ -43,19 +44,19 @@ function get_current_status(){
             return true;
         };
 
-          
+
         t = data.answer.split("|");
-        
+
         eeprom_config_value = parseInt(t[0]);
         $("select#set_mebel_temp").val( parseInt(t[0]) >>> 24 );
-        
+
         // sets current temp display
         display_temp( 'outdoor_temp', t[8]);
         display_temp( 'litos_temp',   t[9]);
         display_temp( 'mebel_temp',   t[10]);
         display_temp( 'heater_temp',  t[11]);
         display_temp( 'pomp_temp',    t[12]);
-        
+
         check_temp_sensor('outdoor_temp', t[3]);
         check_temp_sensor('litos_temp',   t[4]);
         check_temp_sensor('mebel_temp',   t[5]);
@@ -74,7 +75,7 @@ function get_current_status(){
            heater_on();
         };
 
-        if ("3" == t[2] 
+        if ("3" == t[2]
             || "4" == t[2]
             || "0" == t[2]
             || "5" == t[2]
@@ -94,17 +95,17 @@ function get_current_status(){
                 $("select#modes").change();
             };
         };
-        
+
 
         show_status( "<font style='font-size:10px;color:gray;'>" + data.answer + "</font>" );
 
         timeout = setTimeout( get_current_status , REFRESH_TIME);
       },
       error: function () {
-          
+
         show_status( "<font style='color:red;'>Connection error!</font>" );
         timeout = setTimeout( get_current_status , REFRESH_TIME);
-        
+
       },
       dataType: "json"
     });
@@ -122,11 +123,11 @@ function send_command(command){
         show_status( "<font style='color:red;'>Connection error!</font>" );
       },
       dataType: "json"
-    });    
+    });
 };
 
 function display_temp( id, value){
-    
+
     var sign_of_temp = "";
     // check sign of temperature value
     if ( Math.round(parseFloat(value)*10) > 0 ){
@@ -137,17 +138,17 @@ function display_temp( id, value){
 
 function check_temp_sensor( id, value ){
     if (parseInt(value) > 0) {
-        $( "span#" + id ).html( "<b>XXX</b>" );    
+        $( "span#" + id ).html( "<b>XXX</b>" );
     };
 };
 
 function show_status(text){
-    $("div#status").html(text);
+    $("td#status").html(text);
 };
 
 function pomp_on(){
     $('img#pomp_off').hide();
-    $('img#pomp_on').show();    
+    $('img#pomp_on').show();
 };
 function pomp_off(){
     $('img#pomp_on').hide();
@@ -155,16 +156,16 @@ function pomp_off(){
 };
 function heater_on(){
     $('img#heater_off').hide();
-    $('img#heater_on').show();        
+    $('img#heater_on').show();
 };
 function heater_off(){
     $('img#heater_on').hide();
-    $('img#heater_off').show();    
+    $('img#heater_off').show();
 };
 
 function set_mode( mode_number ){
     send_command("AT set mode " + mode_number);
-    
+
 };
 
 function set_mebel_temp( temp_value ) {
