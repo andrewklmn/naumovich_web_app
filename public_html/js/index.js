@@ -22,8 +22,8 @@ function get_current_status(){
 
     var t = [];             // temporary answer buffer
     var mode = $("select#modes").val();
-
     clearTimeout(timeout);
+    show_status( "<font style='color:white;'>ping</font>" );
 
     $.ajax({
       type: "GET",
@@ -96,8 +96,8 @@ function get_current_status(){
             };
         };
 
-
-        show_status( "<font style='font-size:10px;color:gray;'>" + data.answer + "</font>" );
+        show_status( "<font style='color:black;'>pong</font>" );
+        //show_status( "<font style='font-size:10px;color:gray;'>" + data.answer + "</font>" );
 
         timeout = setTimeout( get_current_status , REFRESH_TIME);
       },
