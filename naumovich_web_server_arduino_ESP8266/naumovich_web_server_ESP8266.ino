@@ -269,6 +269,10 @@ void setup(void){
     digitalWrite(INFO_LED, HIGH);
     //counter++;
   };
+ 
+  WiFi.setAutoConnect(true);
+  WiFi.setAutoReconnect(true);
+  
   //Serial.println("--------------");
   //Serial.println("WiFi connected");
 
