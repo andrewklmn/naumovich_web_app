@@ -12,9 +12,9 @@ var eeprom_config_value = 252316195;
         4 unsigned char   Max hot water temp    (default +35)
     */
 
-//var api = 'api';   // comment this for testing
-//var api = 'api.txt'; // comment this for production
-var api = 'api.php'; // comment this for production
+//var api = 'api';   // uncomment this for esp8266 data
+//var api = 'api.txt'; // uncomment this for testing
+var api = 'api.php'; // uncomment this for 10.8.0.66/camera
 
 const REFRESH_TIME = 1500;
 
