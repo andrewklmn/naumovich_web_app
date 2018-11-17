@@ -107,7 +107,8 @@ function get_current_status(){
         timeout = setTimeout( get_current_status , REFRESH_TIME);
 
       },
-      dataType: "json"
+      dataType: "json",
+      timeout: 6000
     });
 };
 
@@ -122,7 +123,8 @@ function send_command(command){
       error: function () {
         show_status( "<font style='color:red;'>Connection error!</font>" );
       },
-      dataType: "json"
+      dataType: "json",
+      timeout: 6000
     });
 };
 
