@@ -15,7 +15,8 @@ var eeprom_config_value = 252316195;
 var api = 'api';   // comment this for testing
 //var api = 'api.txt'; // comment this for production
 
-const REFRESH_TIME = 1500;
+const REFRESH_TIME = 2000;
+const TIMEOUT_TIME = 5000;
 
 function get_current_status(){
 
@@ -108,7 +109,7 @@ function get_current_status(){
 
       },
       dataType: "json",
-      timeout: 3000
+      timeout: TIMEOUT_TIME
     });
 };
 
@@ -124,7 +125,7 @@ function send_command(command){
         show_status( "<font style='color:red;'>Connection error!</font>" );
       },
       dataType: "json",
-      timeout: 3000
+      timeout: TIMEOUT_TIME
     });
 };
 

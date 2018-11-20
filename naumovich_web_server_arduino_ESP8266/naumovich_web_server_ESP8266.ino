@@ -19,15 +19,14 @@ IPAddress subnet(255, 255, 255, 0);
 IPAddress dns(10, 0, 0, 1);
 
 /*
-const char* ssid = "BUZOVA";
+const char* ssid = "BUZOVA1";
 const char* password = "1234567890";
 ESP8266WebServer server(100);
-IPAddress ip(192, 168, 0, 202);     // адрес в вайфай сети коровника
+IPAddress ip(192, 168, 0, 202);     // адрес в вайфай сети
 IPAddress gateway(192, 168, 0, 1);
 IPAddress subnet(255, 255, 255, 0);
 IPAddress dns(192, 168, 0, 1);
 */
-
 
 
 int temp[4] = { 0,0,0,0 }; 
@@ -233,11 +232,8 @@ void setup(void){
   digitalWrite(INFO_LED, HIGH);
     
   
-  WiFi.mode(WIFI_AP_STA);             // клиент и точка доступа
-  WiFi.softAP("NAUMOVICH", "1234567890", 8);
-  //Serial.println("WiFi AP started");    
-  
-  
+  WiFi.mode(WIFI_AP_STA);         
+  WiFi.softAP("NAUMOVICH", "1234567890", 8); 
   WiFi.config(ip, gateway, subnet);
   WiFi.begin(ssid, password);
 
@@ -257,8 +253,6 @@ void setup(void){
   int counter = 0;
   
   while ( WiFi.status() != WL_CONNECTED ) {
-
-//  while ( WiFi.status() != WL_CONNECTED && counter < 30) {
     delay(800);
     digitalWrite(INFO_LED, LOW);
     delay(50);
@@ -267,11 +261,8 @@ void setup(void){
     digitalWrite(INFO_LED, LOW);
     delay(50);
     digitalWrite(INFO_LED, HIGH);
-    //counter++;
   };
- 
-  WiFi.setAutoConnect(true);
-  WiFi.setAutoReconnect(true);
+  
   
   //Serial.println("--------------");
   //Serial.println("WiFi connected");
@@ -290,6 +281,8 @@ void setup(void){
   delay(300);
   digitalWrite(INFO_LED, HIGH);
 
+  WiFi.setAutoConnect(true);
+  WiFi.setAutoReconnect(true);
   
   //Serial.println("");
   //Serial.print("Connected to ");
@@ -325,5 +318,58 @@ void setup(void){
 
 
 void loop(void){
-  server.handleClient();
+
+    if ( WiFi.status() != WL_CONNECTED 
+         || WiFi.status() == WL_CONNECTION_LOST
+         || WiFi.status() == WL_CONNECT_FAILED
+         || WiFi.status() == WL_DISCONNECTED) {
+
+
+        //WiFi.disconnect();
+        
+        ESP.restart();
+
+        /*
+        // wifi connection was lost, reconnect
+        
+        WiFi.mode(WIFI_AP_STA);         
+        WiFi.softAP("NAUMOVICH", "1234567890", 8);
+        WiFi.config(ip, gateway, subnet);
+        WiFi.begin(ssid, password);
+
+        delay(500);
+
+        //wait for connection
+        while ( WiFi.status() != WL_CONNECTED) {
+          delay(800);
+          digitalWrite(INFO_LED, LOW);
+          delay(50);
+          digitalWrite(INFO_LED, HIGH);
+          delay(100);
+          digitalWrite(INFO_LED, LOW);
+          delay(50);
+          digitalWrite(INFO_LED, HIGH);
+        };  
+
+        delay(700);
+        digitalWrite(INFO_LED, LOW);
+        delay(300);
+        digitalWrite(INFO_LED, HIGH);
+        delay(200);
+        digitalWrite(INFO_LED, LOW);
+        delay(300);
+        digitalWrite(INFO_LED, HIGH);
+        delay(200);
+        digitalWrite(INFO_LED, LOW);
+        delay(300);
+        digitalWrite(INFO_LED, HIGH);
+
+        WiFi.setAutoConnect(true);
+        WiFi.setAutoReconnect(true);
+        */
+        
+    };
+    
+    server.handleClient();
+    
 }

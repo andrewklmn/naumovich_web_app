@@ -16,7 +16,8 @@ var eeprom_config_value = 252316195;
 //var api = 'api.txt'; // uncomment this for testing
 var api = 'api.php'; // uncomment this for 10.8.0.66/camera
 
-const REFRESH_TIME = 1500;
+const REFRESH_TIME = 2000;
+const TIMEOUT_TIME = 10000;
 
 function get_current_status(){
 
@@ -108,7 +109,7 @@ function get_current_status(){
 
       },
       dataType: "json",
-      timeout: 6000
+      timeout: TIMEOUT_TIME
     });
 };
 
@@ -124,7 +125,7 @@ function send_command(command){
         show_status( "<font style='color:red;'>Connection error!</font>" );
       },
       dataType: "json",
-      timeout: 6000
+      timeout: TIMEOUT_TIME
     });
 };
 
