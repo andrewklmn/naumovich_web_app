@@ -1,13 +1,22 @@
-
-#define PIC_TIMEOUT 300000     // максимальное время отклика от PIC по UART
-#define INFO_LED 2             // нога со светодиодом 
-
 #include <ESP8266WiFi.h>
+#include <Ticker.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
 #include <FS.h>   //Include File System Headers
 
+
 //MDNSResponder mdns;
+
+#define PIC_TIMEOUT 300000     // максимальное время отклика от PIC по UART
+#define INFO_LED 2             // нога со светодиодом 
+
+
+#define WIFI_RESET_INTERVAL_IN_SEC 21600    // 21600 - every 6 hours
+Ticker blinker;                             //blinker for reset every WIFI_RESET_INTERVAL_IN_SEC
+
+void restart_ESP_by_blinker(){
+  ESP.restart();  
+};
 
 
 const char* ssid = "litos";
@@ -313,7 +322,11 @@ void setup(void){
 
   //mdns.addService("http", "tcp", 80);
 
-}
+
+
+  blinker.attach( WIFI_RESET_INTERVAL_IN_SEC, restart_ESP_by_blinker );   // Sets blinker to reset ESP after WIFI_RESET_INTERVAL_IN_SEC
+
+};
 
 
 
